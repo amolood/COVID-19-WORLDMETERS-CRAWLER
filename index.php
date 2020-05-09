@@ -8,7 +8,7 @@ libxml_clear_errors();
 $xpath = new DOMXpath($dom);
 
 $len = $xpath->query('//*[@id="main_table_countries_today"]/tbody[1]/tr');
-$val = [
+$data = [
     'time_accessed' => time(),
     'data' => []
 ];
@@ -30,12 +30,12 @@ for ($i = 1; $i <= $len->length; $i++) {
         $temp['total_recovered'] = (int) str_replace(',', '', str_replace('+', '', trim($x->textContent)));
     }
     foreach ($xpath->query('//*[@id="main_table_countries_today"]/tbody[1]/tr[' . $i . ']/td[6]') as $x) {
-        $temp['actice_cases'] = (int) str_replace(',', '', str_replace('+', '', trim($x->textContent)));
+        $temp['active_cases'] = (int) str_replace(',', '', str_replace('+', '', trim($x->textContent)));
     }
     foreach ($xpath->query('//*[@id="main_table_countries_today"]/tbody[1]/tr[' . $i . ']/td[7]') as $x) {
         $temp['serious_or_critical'] = (int) str_replace(',', '', str_replace('+', '', trim($x->textContent)));
     }
-    array_push($val['data'], $temp);
+    array_push($data['data'], $temp);
 }
 
-echo json_encode($val);
+echo json_encode($data);
